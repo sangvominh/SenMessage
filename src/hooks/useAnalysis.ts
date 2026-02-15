@@ -61,8 +61,14 @@ export function useAnalysis(): UseAnalysisReturn {
           messages,
           (p) => setProgress(p),
           (err) => {
-            setError(err);
-            setState("error");
+            if (err === null) {
+              // Temporary error cleared (e.g. rate limit wait finished)
+              setError(null);
+              setState("running");
+            } else {
+              setError(err);
+              setState("error");
+            }
           },
         )
         .then(() => {

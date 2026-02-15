@@ -16,7 +16,7 @@ export interface BatchProgress {
 }
 
 export type BatchProgressCallback = (progress: BatchProgress) => void;
-export type BatchErrorCallback = (error: string) => void;
+export type BatchErrorCallback = (error: string | null) => void;
 
 /**
  * Batch manager service.
@@ -31,7 +31,7 @@ export class BatchManager {
 
   constructor(apiKey: string) {
     this.gemini = new GeminiService(apiKey);
-    this.rateLimiter = new RateLimiter(4000); // 15 RPM free tier
+    this.rateLimiter = new RateLimiter(13_000); // 5 RPM free tier for Gemini 2.5 Flash
   }
 
   setParticipants(participants: Participant[]): void {
@@ -191,6 +191,15 @@ export class BatchManager {
             await updateBatch(batch.id, { status: "failed", error: errorMsg });
             this.cancel();
             return;
+          }
+
+          // Rate limit (429) → wait 60s then retry (doesn't count as failure)
+          if (errorMsg.includes("429") || errorMsg.toLowerCase().includes("rate")) {
+            onError?.("Đã vượt giới hạn RPM. Đang chờ 60 giây...");
+            await new Promise((resolve) => setTimeout(resolve, 60_000));
+            onError?.(null); // Clear the temporary error after waiting
+            retryCount--; // Don't count rate limit as a failure retry
+            continue;
           }
 
           if (retryCount > MAX_RETRIES) {

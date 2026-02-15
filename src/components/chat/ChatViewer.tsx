@@ -67,7 +67,10 @@ export default function ChatViewer({
       <AnalysisProgress
         messagesAnalyzed={analysis.progress?.messagesAnalyzed ?? 0}
         messagesTotal={analysis.progress?.messagesTotal ?? 0}
+        batchesCompleted={analysis.progress?.batchesCompleted ?? 0}
+        batchesTotal={analysis.progress?.batchesTotal ?? 0}
         isRunning={analysis.state === "running"}
+        isComplete={analysis.state === "completed"}
         error={analysis.error}
       />
 
