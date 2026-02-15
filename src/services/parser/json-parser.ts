@@ -43,8 +43,15 @@ interface FBJsonMessage {
 
 export class JSONParser implements ChatExportParser {
   async canParse(files: File[]): Promise<boolean> {
-    for (const file of files) {
-      if (!file.name.toLowerCase().endsWith(".json")) continue;
+    // Prioritize files with message_*.json naming pattern
+    const jsonFiles = files.filter((f) => f.name.toLowerCase().endsWith(".json"));
+    const sorted = [...jsonFiles].sort((a, b) => {
+      const aIsMsg = /^message_\d+\.json$/i.test(a.name) ? 0 : 1;
+      const bIsMsg = /^message_\d+\.json$/i.test(b.name) ? 0 : 1;
+      return aIsMsg - bIsMsg;
+    });
+
+    for (const file of sorted) {
       try {
         const text = await file.text();
         const data: unknown = JSON.parse(text);
@@ -57,7 +64,7 @@ export class JSONParser implements ChatExportParser {
           return true;
         }
       } catch {
-        // Not valid JSON or not the right format
+        // Not valid JSON or not the right format — skip
       }
     }
     return false;
@@ -70,28 +77,40 @@ export class JSONParser implements ChatExportParser {
     }
 
     // Group files by conversation (thread_path or title)
+    // Skip non-message JSON files gracefully
     const conversationMap = new Map<string, { data: FBJsonExport; fileName: string }[]>();
     let processed = 0;
+    let messageFileCount = 0;
 
     for (const file of jsonFiles) {
       let text: string;
       try {
         text = await file.text();
       } catch {
-        throw new ParseError(vi.errors.parseInvalidJson);
+        // Can't read file — skip
+        processed++;
+        onProgress?.(processed / (jsonFiles.length * 2));
+        continue;
       }
 
       let data: FBJsonExport;
       try {
         data = JSON.parse(text) as FBJsonExport;
       } catch {
-        throw new ParseError(vi.errors.parseInvalidJson);
+        // Not valid JSON — skip
+        processed++;
+        onProgress?.(processed / (jsonFiles.length * 2));
+        continue;
       }
 
+      // Skip JSON files that aren't Facebook message exports
       if (!data.messages || !Array.isArray(data.messages)) {
-        throw new ParseError(vi.errors.parseMissingMessages);
+        processed++;
+        onProgress?.(processed / (jsonFiles.length * 2));
+        continue;
       }
 
+      messageFileCount++;
       const convId = data.thread_path ?? data.title ?? "unknown";
       const existing = conversationMap.get(convId) ?? [];
       existing.push({ data, fileName: file.name });
@@ -99,6 +118,10 @@ export class JSONParser implements ChatExportParser {
 
       processed++;
       onProgress?.(processed / (jsonFiles.length * 2)); // First half: reading files
+    }
+
+    if (messageFileCount === 0) {
+      throw new ParseError(vi.errors.parseNoMessageFiles);
     }
 
     // Build conversations

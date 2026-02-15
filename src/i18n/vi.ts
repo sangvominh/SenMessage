@@ -18,18 +18,23 @@ export const vi = {
     step2: 'Chọn "Yêu cầu tải xuống"',
     step3: 'Chỉ chọn "Tin nhắn" — bỏ chọn tất cả mục khác',
     step4: "Chọn định dạng JSON (khuyến nghị) hoặc HTML",
-    step5: "Tải về và giải nén file ZIP",
+    step5: "Tải về, giải nén, rồi chọn thư mục inbox hoặc thư mục cuộc hội thoại",
     startButton: "Bắt đầu",
   },
 
   // Upload screen
   upload: {
     title: "Tải lên file export",
-    dragDrop: "Kéo thả file vào đây",
+    dragDrop: "Kéo thả file hoặc thư mục vào đây",
     or: "hoặc",
-    selectFile: "Chọn file",
-    acceptedFormats: "Hỗ trợ file .json hoặc .html từ Facebook Messenger",
+    selectFile: "Chọn file JSON/HTML",
+    selectFolder: "Chọn thư mục export",
+    folderHint:
+      "Chọn thư mục chứa export Facebook (ví dụ: thư mục inbox hoặc thư mục cuộc hội thoại)",
+    acceptedFormats: "Hỗ trợ file .json / .html hoặc thư mục export Facebook Messenger",
     parsing: "Đang đọc file...",
+    scanning: "Đang quét thư mục...",
+    foundFiles: (count: number) => `Tìm thấy ${count} file tin nhắn`,
     parseProgress: (percent: number) => `Đang xử lý... ${Math.round(percent * 100)}%`,
   },
 
@@ -124,7 +129,9 @@ export const vi = {
       "Không tìm thấy tin nhắn trong file HTML. Facebook có thể đã thay đổi format export.",
     parseHtmlClassMismatch: "Format HTML không được nhận dạng. Thử export lại ở định dạng JSON.",
     parseUnknownFormat:
-      "Không nhận dạng được định dạng file. Vui lòng upload file .json hoặc .html từ Facebook Messenger.",
+      "Không tìm thấy file tin nhắn. Hãy chọn thư mục chứa export Facebook hoặc chọn trực tiếp file message_*.json.",
+    parseNoMessageFiles:
+      "Không tìm thấy file message_*.json trong thư mục. Hãy chọn đúng thư mục inbox hoặc thư mục cuộc hội thoại.",
     apiKeyInvalid: "API key không hợp lệ. Vui lòng kiểm tra lại.",
     apiRateLimit: "Đã vượt giới hạn API. Đang chờ để thử lại...",
     apiServerError: "Lỗi server Gemini. Đang thử lại...",
