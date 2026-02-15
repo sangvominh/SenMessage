@@ -45,7 +45,7 @@ Lưu ý:
     const payload = JSON.stringify({ messages });
 
     const response = await this.ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash-lite",
       contents: [
         {
           role: "user",
@@ -65,7 +65,6 @@ Lưu ý:
             required: ["id", "score"],
           },
         },
-        thinkingConfig: { thinkingBudget: 0 },
       },
     });
 

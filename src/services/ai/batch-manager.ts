@@ -3,7 +3,7 @@ import { GeminiService, type ScoreResult } from "./gemini-service";
 import { RateLimiter } from "./rate-limiter";
 import { saveBatches, updateBatch, updateScores } from "../storage/storage-service";
 
-const BATCH_SIZE = 100;
+const BATCH_SIZE = 200;
 const CONTEXT_WINDOW = 5;
 const MAX_RETRIES = 3;
 const BACKOFF_BASE_MS = 1000;
@@ -31,7 +31,7 @@ export class BatchManager {
 
   constructor(apiKey: string) {
     this.gemini = new GeminiService(apiKey);
-    this.rateLimiter = new RateLimiter(13_000); // 5 RPM free tier for Gemini 2.5 Flash
+    this.rateLimiter = new RateLimiter(2_500); // 30 RPM free tier for gemini-2.0-flash-lite
   }
 
   setParticipants(participants: Participant[]): void {

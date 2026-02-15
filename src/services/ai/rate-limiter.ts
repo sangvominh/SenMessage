@@ -1,7 +1,7 @@
 /**
  * Simple rate limiter with queue and configurable delay.
  * Per gemini-api.md rate limiting strategy.
- * Gemini 2.5 Flash free tier: 5 RPM → 13s between requests.
+ * Gemini 2.0 Flash-Lite free tier: 30 RPM → 2.5s between requests.
  */
 export class RateLimiter {
   private queue: (() => Promise<void>)[] = [];
@@ -10,7 +10,7 @@ export class RateLimiter {
   private paused = false;
   private lastRequestTime = 0;
 
-  constructor(delayMs = 13_000) {
+  constructor(delayMs = 2_500) {
     this.delayMs = delayMs;
   }
 
