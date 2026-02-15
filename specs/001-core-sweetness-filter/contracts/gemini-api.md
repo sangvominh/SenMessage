@@ -22,8 +22,8 @@ ai.models.generateContent({
   config: {
     responseMimeType: "application/json",
     responseSchema: responseSchema,
-    thinkingConfig: { thinkingBudget: 0 }
-  }
+    thinkingConfig: { thinkingBudget: 0 },
+  },
 });
 ```
 
@@ -78,10 +78,10 @@ const responseSchema = {
     type: Type.OBJECT,
     properties: {
       id: { type: Type.NUMBER, description: "Message ID from input" },
-      score: { type: Type.NUMBER, description: "Sweetness score 0-5" }
+      score: { type: Type.NUMBER, description: "Sweetness score 0-5" },
     },
-    required: ["id", "score"]
-  }
+    required: ["id", "score"],
+  },
 };
 ```
 
@@ -106,15 +106,15 @@ const responseSchema = {
 
 ## Error Handling Contract
 
-| Error | Detection | Action |
-|-------|-----------|--------|
-| 429 Rate Limit | HTTP 429 or SDK rate limit error | Wait `Retry-After` header or exponential backoff (1s, 2s, 4s). Max 3 retries. |
-| 403 Forbidden | HTTP 403 | Invalid API key → surface to user, pause all batches |
-| 400 Bad Request | HTTP 400 | Malformed prompt → log error, skip batch, mark failed |
-| 500/503 Server Error | HTTP 5xx | Retry up to 3 times with backoff |
-| Network Error | Fetch failure / timeout | Pause analysis, show connectivity error, offer manual retry |
-| Invalid JSON response | JSON.parse failure (should not happen with schema enforcement) | Retry once, then mark batch failed |
-| Partial response | Some message IDs missing from response | Accept what we got, mark missing as unscored |
+| Error                 | Detection                                                      | Action                                                                        |
+| --------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| 429 Rate Limit        | HTTP 429 or SDK rate limit error                               | Wait `Retry-After` header or exponential backoff (1s, 2s, 4s). Max 3 retries. |
+| 403 Forbidden         | HTTP 403                                                       | Invalid API key → surface to user, pause all batches                          |
+| 400 Bad Request       | HTTP 400                                                       | Malformed prompt → log error, skip batch, mark failed                         |
+| 500/503 Server Error  | HTTP 5xx                                                       | Retry up to 3 times with backoff                                              |
+| Network Error         | Fetch failure / timeout                                        | Pause analysis, show connectivity error, offer manual retry                   |
+| Invalid JSON response | JSON.parse failure (should not happen with schema enforcement) | Retry once, then mark batch failed                                            |
+| Partial response      | Some message IDs missing from response                         | Accept what we got, mark missing as unscored                                  |
 
 ## Rate Limiting Strategy
 
@@ -150,11 +150,11 @@ Batch Queue: [B1, B2, B3, ..., B50]
 
 ## Token Budget Estimation
 
-| Component | Tokens |
-|-----------|--------|
-| System prompt | ~300 |
-| 100 messages × ~65 tokens/msg | ~6,500 |
-| Total input per batch | ~6,800 |
-| Response (100 × `{id, score}`) | ~300 |
-| **Total per batch** | **~7,100** |
+| Component                                 | Tokens       |
+| ----------------------------------------- | ------------ |
+| System prompt                             | ~300         |
+| 100 messages × ~65 tokens/msg             | ~6,500       |
+| Total input per batch                     | ~6,800       |
+| Response (100 × `{id, score}`)            | ~300         |
+| **Total per batch**                       | **~7,100**   |
 | **Total for 5,000 messages (50 batches)** | **~355,000** |

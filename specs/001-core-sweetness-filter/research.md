@@ -16,9 +16,7 @@ Facebook's "Download Your Information" (facebook.com/dyi) produces two formats:
 
 ```json
 {
-  "participants": [
-    { "name": "Nguy\u00e1\u00bb\u0085n V\u00c4\u0083n A" }
-  ],
+  "participants": [{ "name": "Nguy\u00e1\u00bb\u0085n V\u00c4\u0083n A" }],
   "messages": [
     {
       "sender_name": "Nguy\u00e1\u00bb\u0085n V\u00c4\u0083n A",
@@ -42,9 +40,7 @@ Facebook JSON exports encode Vietnamese text as Latin-1 byte escapes instead of 
 ```typescript
 function decodeFBString(str: string): string {
   try {
-    return new TextDecoder('utf-8').decode(
-      new Uint8Array([...str].map(c => c.charCodeAt(0)))
-    );
+    return new TextDecoder("utf-8").decode(new Uint8Array([...str].map((c) => c.charCodeAt(0))));
   } catch {
     return str; // If not mojibake, return original
   }
@@ -80,10 +76,10 @@ HTML is properly UTF-8 encoded — no mojibake fix needed.
 
 ### SDK Choice
 
-| Package | Status | Notes |
-|---------|--------|-------|
-| `@google/genai` v1.x | **GA (use this)** | Current official SDK, released 2025 |
-| `@google/generative-ai` | **DEPRECATED** | EOL August 2025. Do NOT use. |
+| Package                 | Status            | Notes                               |
+| ----------------------- | ----------------- | ----------------------------------- |
+| `@google/genai` v1.x    | **GA (use this)** | Current official SDK, released 2025 |
+| `@google/generative-ai` | **DEPRECATED**    | EOL August 2025. Do NOT use.        |
 
 ### Basic Usage
 
@@ -94,9 +90,7 @@ const ai = new GoogleGenAI({ apiKey: userApiKey });
 
 const response = await ai.models.generateContent({
   model: "gemini-2.5-flash",
-  contents: [
-    { role: "user", parts: [{ text: systemPrompt + "\n\n" + JSON.stringify(batch) }] }
-  ],
+  contents: [{ role: "user", parts: [{ text: systemPrompt + "\n\n" + JSON.stringify(batch) }] }],
   config: {
     responseMimeType: "application/json",
     responseSchema: {
@@ -105,13 +99,13 @@ const response = await ai.models.generateContent({
         type: Type.OBJECT,
         properties: {
           id: { type: Type.NUMBER },
-          score: { type: Type.NUMBER }
+          score: { type: Type.NUMBER },
         },
-        required: ["id", "score"]
-      }
+        required: ["id", "score"],
+      },
     },
-    thinkingConfig: { thinkingBudget: 0 }
-  }
+    thinkingConfig: { thinkingBudget: 0 },
+  },
 });
 
 const scores = JSON.parse(response.text);
@@ -126,11 +120,11 @@ const scores = JSON.parse(response.text);
 
 ### Rate Limits (Free Tier)
 
-| Limit | Value |
-|-------|-------|
-| Requests per minute | 15 RPM |
-| Tokens per minute | 1,000,000 TPM |
-| Requests per day | 1,500 RPD |
+| Limit               | Value         |
+| ------------------- | ------------- |
+| Requests per minute | 15 RPM        |
+| Tokens per minute   | 1,000,000 TPM |
+| Requests per day    | 1,500 RPD     |
 
 For 5,000 messages (50 batches at 100/batch): ~50 requests × 4s delay = **~3.5 minutes**.
 
@@ -152,16 +146,16 @@ For 5,000 messages (50 batches at 100/batch): ~50 requests × 4s delay = **~3.5 
 import { GroupedVirtuoso } from "react-virtuoso";
 
 <GroupedVirtuoso
-  groupCounts={groupCounts}        // [5, 12, 8] — messages per date group
-  groupContent={index => (         // Date separator header
-    <DateSeparator date={groupLabels[index]} />
-  )}
-  itemContent={index => (          // Individual chat bubble
-    <ChatBubble message={flatMessages[index]} />
-  )}
-  defaultItemHeight={72}           // Estimated height for unmeasured items
-  followOutput="smooth"            // Auto-scroll on new items
-/>
+  groupCounts={groupCounts} // [5, 12, 8] — messages per date group
+  groupContent={(
+    index, // Date separator header
+  ) => <DateSeparator date={groupLabels[index]} />}
+  itemContent={(
+    index, // Individual chat bubble
+  ) => <ChatBubble message={flatMessages[index]} />}
+  defaultItemHeight={72} // Estimated height for unmeasured items
+  followOutput="smooth" // Auto-scroll on new items
+/>;
 ```
 
 ### Performance
@@ -173,11 +167,11 @@ import { GroupedVirtuoso } from "react-virtuoso";
 
 ### Alternatives Considered
 
-| Library | Size | Variable Height | Groups | Decision |
-|---------|------|----------------|--------|----------|
-| react-virtuoso | ~25KB | ✅ Auto | ✅ GroupedVirtuoso | **Selected** |
-| @tanstack/virtual | ~5KB | ✅ Manual | ❌ Manual | Too much boilerplate for groups |
-| react-window | ~6KB | ❌ Fixed only | ❌ No | Can't handle variable chat bubbles |
+| Library           | Size  | Variable Height | Groups             | Decision                           |
+| ----------------- | ----- | --------------- | ------------------ | ---------------------------------- |
+| react-virtuoso    | ~25KB | ✅ Auto         | ✅ GroupedVirtuoso | **Selected**                       |
+| @tanstack/virtual | ~5KB  | ✅ Manual       | ❌ Manual          | Too much boilerplate for groups    |
+| react-window      | ~6KB  | ❌ Fixed only   | ❌ No              | Can't handle variable chat bubbles |
 
 ---
 
@@ -191,9 +185,7 @@ Simple client-side text search — no external library needed.
 function searchMessages(messages: Message[], query: string): Message[] {
   if (!query.trim()) return messages;
   const lower = query.toLowerCase();
-  return messages.filter(m =>
-    m.content?.toLowerCase().includes(lower)
-  );
+  return messages.filter((m) => m.content?.toLowerCase().includes(lower));
 }
 ```
 
@@ -247,7 +239,7 @@ class SenMessageDB extends Dexie {
     this.version(1).stores({
       conversations: "id, title, messageCount",
       messages: "id, [conversationId+order], [conversationId+sweetnessScore], conversationId",
-      batches: "++id, conversationId, status"
+      batches: "++id, conversationId, status",
     });
   }
 }
@@ -257,14 +249,10 @@ class SenMessageDB extends Dexie {
 
 ```typescript
 // All messages for a conversation, chronological
-db.messages.where('[conversationId+order]')
-  .between([convId, Dexie.minKey], [convId, Dexie.maxKey])
-  .toArray();
+db.messages.where("[conversationId+order]").between([convId, Dexie.minKey], [convId, Dexie.maxKey]).toArray();
 
 // Sweet messages at level 3+
-db.messages.where('[conversationId+sweetnessScore]')
-  .between([convId, 3], [convId, 5])
-  .toArray();
+db.messages.where("[conversationId+sweetnessScore]").between([convId, 3], [convId, 5]).toArray();
 
 // Bulk score update after AI batch
 db.messages.bulkPut(scoredMessages);
@@ -275,10 +263,7 @@ db.messages.bulkPut(scoredMessages);
 ```typescript
 import { useLiveQuery } from "dexie-react-hooks";
 
-const messages = useLiveQuery(
-  () => db.messages.where({ conversationId: convId }).sortBy('order'),
-  [convId]
-);
+const messages = useLiveQuery(() => db.messages.where({ conversationId: convId }).sortBy("order"), [convId]);
 ```
 
 Changes to IndexedDB data automatically trigger React re-renders. Used for progressive AI results — as scores arrive, the UI updates without manual state management.
@@ -328,7 +313,8 @@ Changes to IndexedDB data automatically trigger React re-renders. Used for progr
 ```html
 <!-- Hearts badge on bubble -->
 <div class="absolute -top-2 -right-2 flex">
-  <span class="text-pink-400 text-xs">♥♥♥</span> <!-- 3 hearts = level 3 -->
+  <span class="text-pink-400 text-xs">♥♥♥</span>
+  <!-- 3 hearts = level 3 -->
 </div>
 ```
 
@@ -346,12 +332,12 @@ Changes to IndexedDB data automatically trigger React re-renders. Used for progr
 
 ### Color Palette
 
-| Element | Color | Tailwind Class |
-|---------|-------|---------------|
-| Own message bubble | Blue | `bg-blue-500` |
-| Other's message bubble | Light gray | `bg-gray-100` |
-| Primary accent | Pink | `bg-pink-500` |
-| Sweetness hearts | Pink gradient | `text-pink-400` to `text-pink-600` |
-| Background | White | `bg-white` |
-| Text primary | Dark gray | `text-gray-900` |
-| Text secondary | Medium gray | `text-gray-500` |
+| Element                | Color         | Tailwind Class                     |
+| ---------------------- | ------------- | ---------------------------------- |
+| Own message bubble     | Blue          | `bg-blue-500`                      |
+| Other's message bubble | Light gray    | `bg-gray-100`                      |
+| Primary accent         | Pink          | `bg-pink-500`                      |
+| Sweetness hearts       | Pink gradient | `text-pink-400` to `text-pink-600` |
+| Background             | White         | `bg-white`                         |
+| Text primary           | Dark gray     | `text-gray-900`                    |
+| Text secondary         | Medium gray   | `text-gray-500`                    |

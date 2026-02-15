@@ -58,6 +58,7 @@ The app will parse the file and show a list of conversations found.
 ### 3. Select Conversation
 
 If your export contains multiple conversations, you'll see a conversation picker listing:
+
 - Participant names
 - Message count per conversation
 
@@ -66,6 +67,7 @@ Click on the conversation you want to explore. (If only one conversation exists,
 ### 4. Browse Messages (Level 0)
 
 The conversation opens in a chat viewer immediately — no AI needed yet! At slider level 0 (default), you see ALL messages in a Messenger-style layout with:
+
 - Chat bubbles (your messages right-aligned in blue, theirs left-aligned in gray)
 - Date separators between message groups
 - Keyword search (Ctrl+F or search bar)
@@ -73,6 +75,7 @@ The conversation opens in a chat viewer immediately — no AI needed yet! At sli
 ### 5. Enter Gemini API Key
 
 To analyze sweetness levels, tap the settings icon and enter your Google Gemini API key:
+
 1. Go to [aistudio.google.com](https://aistudio.google.com)
 2. Sign in with your Google account
 3. Click **"Get API Key"** → **"Create API key"**
@@ -91,6 +94,7 @@ You can continue browsing messages at level 0 while analysis runs. As batches co
 ### 7. Filter by Sweetness
 
 Move the slider from 0 to 1–5 to filter messages by sweetness level:
+
 - **Level 0**: All messages (default — fast local chat viewer)
 - **Level 1**: Mildly sweet (casual affection)
 - **Level 2**: Warm and caring
@@ -116,23 +120,23 @@ Use this to verify the app is working correctly after setup:
 
 ## Development Commands
 
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server (Vite) |
-| `npm run build` | Production build |
+| Command           | Purpose                          |
+| ----------------- | -------------------------------- |
+| `npm run dev`     | Start development server (Vite)  |
+| `npm run build`   | Production build                 |
 | `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Run Prettier |
+| `npm run lint`    | Run ESLint                       |
+| `npm run format`  | Run Prettier                     |
 
 ## Tech Stack Quick Reference
 
-| Dependency | Version | Purpose |
-|------------|---------|---------|
-| React | 18+ | UI framework |
-| Vite | 5+ | Build tool & dev server |
-| TypeScript | 5.x (strict) | Type safety |
-| @google/genai | 1.x | Gemini AI SDK (GA) |
-| react-virtuoso | latest | Virtualized chat list |
-| dexie | 4.x | IndexedDB wrapper |
-| dexie-react-hooks | latest | Reactive IndexedDB queries |
-| tailwindcss | 4.x | Utility-first CSS |
+| Dependency        | Version      | Purpose                    |
+| ----------------- | ------------ | -------------------------- |
+| React             | 18+          | UI framework               |
+| Vite              | 5+           | Build tool & dev server    |
+| TypeScript        | 5.x (strict) | Type safety                |
+| @google/genai     | 1.x          | Gemini AI SDK (GA)         |
+| react-virtuoso    | latest       | Virtualized chat list      |
+| dexie             | 4.x          | IndexedDB wrapper          |
+| dexie-react-hooks | latest       | Reactive IndexedDB queries |
+| tailwindcss       | 4.x          | Utility-first CSS          |

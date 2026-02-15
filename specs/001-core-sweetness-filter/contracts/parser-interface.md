@@ -25,10 +25,7 @@ interface ChatExportParser {
    * @returns Parsed export with all conversations and messages
    * @throws ParseError with user-friendly message on failure
    */
-  parse(
-    files: File[],
-    onProgress?: (progress: number) => void
-  ): Promise<ConversationExport>;
+  parse(files: File[], onProgress?: (progress: number) => void): Promise<ConversationExport>;
 }
 ```
 
@@ -62,6 +59,7 @@ Files uploaded
 ### Input
 
 One or more `.json` files with Facebook Messenger export structure:
+
 ```json
 {
   "participants": [...],
@@ -79,9 +77,7 @@ One or more `.json` files with Facebook Messenger export structure:
    ```typescript
    function decodeFBString(str: string): string {
      try {
-       return new TextDecoder('utf-8').decode(
-         new Uint8Array([...str].map(c => c.charCodeAt(0)))
-       );
+       return new TextDecoder("utf-8").decode(new Uint8Array([...str].map((c) => c.charCodeAt(0))));
      } catch {
        return str; // If decoding fails, return original
      }
@@ -94,12 +90,12 @@ One or more `.json` files with Facebook Messenger export structure:
 
 ### Error Cases
 
-| Error | Detection | User Message (Vietnamese) |
-|-------|-----------|---------------------------|
-| Invalid JSON | `JSON.parse` throws | "File không phải định dạng JSON hợp lệ. Vui lòng kiểm tra lại file export từ Facebook." |
-| Missing `messages` field | Key not found | "File JSON không chứa dữ liệu tin nhắn. Đảm bảo bạn đã export phần 'Tin nhắn' từ Facebook." |
-| Empty messages array | `messages.length === 0` | "Cuộc hội thoại này không có tin nhắn nào." |
-| Mojibake decode failure | TextDecoder throws | Silently fall back to raw string (display may look garbled) |
+| Error                    | Detection               | User Message (Vietnamese)                                                                   |
+| ------------------------ | ----------------------- | ------------------------------------------------------------------------------------------- |
+| Invalid JSON             | `JSON.parse` throws     | "File không phải định dạng JSON hợp lệ. Vui lòng kiểm tra lại file export từ Facebook."     |
+| Missing `messages` field | Key not found           | "File JSON không chứa dữ liệu tin nhắn. Đảm bảo bạn đã export phần 'Tin nhắn' từ Facebook." |
+| Empty messages array     | `messages.length === 0` | "Cuộc hội thoại này không có tin nhắn nào."                                                 |
+| Mojibake decode failure  | TextDecoder throws      | Silently fall back to raw string (display may look garbled)                                 |
 
 ## HTML Parser Contract
 
@@ -124,6 +120,7 @@ One or more `.html` files with Facebook Messenger export structure.
 ### Timestamp Parsing
 
 HTML timestamps are locale-dependent. Support common formats:
+
 - US: `"Feb 15, 2026, 10:30 AM"`
 - Intl: `"15 feb. 2026, 10:30"`
 - Numeric: `"15/02/2026 10:30"`
@@ -132,11 +129,11 @@ Use `Date.parse()` with fallback heuristics. If parsing fails, use file order po
 
 ### Error Cases
 
-| Error | Detection | User Message (Vietnamese) |
-|-------|-----------|---------------------------|
-| Not an HTML file | DOMParser returns empty or no `role="main"` | "File không phải định dạng HTML export từ Facebook." |
-| No message blocks found | Zero matches for message CSS selectors | "Không tìm thấy tin nhắn trong file HTML. Facebook có thể đã thay đổi format export." |
-| CSS class mismatch | Known classes not found | "Format HTML không được nhận dạng. Thử export lại ở định dạng JSON." |
+| Error                   | Detection                                   | User Message (Vietnamese)                                                             |
+| ----------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Not an HTML file        | DOMParser returns empty or no `role="main"` | "File không phải định dạng HTML export từ Facebook."                                  |
+| No message blocks found | Zero matches for message CSS selectors      | "Không tìm thấy tin nhắn trong file HTML. Facebook có thể đã thay đổi format export." |
+| CSS class mismatch      | Known classes not found                     | "Format HTML không được nhận dạng. Thử export lại ở định dạng JSON."                  |
 
 ## Output Contract
 
@@ -150,19 +147,19 @@ interface ConversationExport {
 }
 
 interface ParsedConversation {
-  id: string;           // Derived from thread_path or hash
-  title: string;        // Decoded conversation title
+  id: string; // Derived from thread_path or hash
+  title: string; // Decoded conversation title
   participants: { name: string }[];
   messages: ParsedMessage[];
   dateRange: { start: number; end: number };
 }
 
 interface ParsedMessage {
-  sender: string;       // Decoded sender name
-  timestamp: number;    // Epoch ms (UTC)
+  sender: string; // Decoded sender name
+  timestamp: number; // Epoch ms (UTC)
   content: string | null;
   type: MessageType;
   isUnsent: boolean;
-  order: number;        // Chronological position (0 = oldest)
+  order: number; // Chronological position (0 = oldest)
 }
 ```
