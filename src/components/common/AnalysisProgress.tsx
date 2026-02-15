@@ -75,7 +75,8 @@ export default function AnalysisProgress({
         <div className="flex items-center justify-center gap-2">
           <span className="text-base">✅</span>
           <span className="text-green-700 text-xs font-medium">
-            {vi.analysis.completed} — {messagesAnalyzed.toLocaleString("vi-VN")} tin nhắn đã phân tích
+            {vi.analysis.completed} — {messagesAnalyzed.toLocaleString("vi-VN")} tin nhắn đã phân
+            tích
           </span>
         </div>
       ) : (
@@ -84,9 +85,7 @@ export default function AnalysisProgress({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-base animate-pulse">🔍</span>
-              <span className="text-xs font-medium text-gray-700">
-                Đang phân tích độ sến...
-              </span>
+              <span className="text-xs font-medium text-gray-700">Đang phân tích độ sến...</span>
             </div>
             <div className="flex items-center gap-3 text-xs text-gray-500">
               {etaText && <span>{etaText}</span>}
@@ -109,7 +108,8 @@ export default function AnalysisProgress({
           {/* Detail row */}
           <div className="flex items-center justify-between text-xs text-gray-500">
             <span>
-              {messagesAnalyzed.toLocaleString("vi-VN")}/{messagesTotal.toLocaleString("vi-VN")} tin nhắn
+              {messagesAnalyzed.toLocaleString("vi-VN")}/{messagesTotal.toLocaleString("vi-VN")} tin
+              nhắn
             </span>
             <span>
               Batch {batchesCompleted}/{batchesTotal} · {pct}%

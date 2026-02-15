@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import type { ConversationExport } from "../models/types";
 import { tryParse } from "../services/parser/parser-resolver";
+import { parsePastedText } from "../services/parser/paste-parser";
 
 type UploadState = "idle" | "parsing" | "success" | "error";
 
@@ -10,6 +11,7 @@ interface UseFileUploadReturn {
   error: string | null;
   result: ConversationExport | null;
   handleFiles: (files: File[]) => void;
+  handlePaste: (text: string) => void;
   reset: () => void;
 }
 
@@ -39,6 +41,25 @@ export function useFileUpload(): UseFileUploadReturn {
       });
   }, []);
 
+  const handlePaste = useCallback((text: string) => {
+    setState("parsing");
+    setProgress(0.5);
+    setError(null);
+    setResult(null);
+
+    try {
+      const exportResult = parsePastedText(text);
+      setResult(exportResult);
+      setState("success");
+      setProgress(1);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      setError(message);
+      setState("error");
+      setProgress(null);
+    }
+  }, []);
+
   const reset = useCallback(() => {
     setState("idle");
     setProgress(null);
@@ -46,5 +67,5 @@ export function useFileUpload(): UseFileUploadReturn {
     setResult(null);
   }, []);
 
-  return { state, progress, error, result, handleFiles, reset };
+  return { state, progress, error, result, handleFiles, handlePaste, reset };
 }

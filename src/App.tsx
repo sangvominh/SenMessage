@@ -85,6 +85,7 @@ function App() {
           <Layout showSettings={false}>
             <UploadArea
               onFilesSelected={upload.handleFiles}
+              onPasteText={upload.handlePaste}
               isLoading={upload.state === "parsing"}
               progress={upload.progress}
               error={upload.error}

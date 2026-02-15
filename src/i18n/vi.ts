@@ -12,7 +12,7 @@ export const vi = {
   onboarding: {
     welcome: "Chào mừng bạn đến với SenMessage!",
     description:
-      "SenMessage giúp bạn tìm lại những tin nhắn ngọt ngào nhất trong cuộc hội thoại Facebook Messenger của bạn.",
+      "Tìm lại những tin nhắn ngọt ngào nhất. Dán tin nhắn trực tiếp hoặc upload file export Facebook.",
     howToExport: "Cách export tin nhắn từ Facebook:",
     step1: "Truy cập facebook.com/dyi",
     step2: 'Chọn "Yêu cầu tải xuống"',
@@ -24,7 +24,7 @@ export const vi = {
 
   // Upload screen
   upload: {
-    title: "Tải lên file export",
+    title: "Nhập tin nhắn",
     dragDrop: "Kéo thả file hoặc thư mục vào đây",
     or: "hoặc",
     selectFile: "Chọn file JSON/HTML",
