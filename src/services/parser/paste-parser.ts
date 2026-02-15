@@ -88,9 +88,8 @@ export function parsePastedText(text: string): ConversationExport {
     conversations: [
       {
         id: `pasted_${Date.now()}`,
-        title: participants.length > 1
-          ? participants.map((p) => p.name).join(" & ")
-          : "Tin nhắn dán",
+        title:
+          participants.length > 1 ? participants.map((p) => p.name).join(" & ") : "Tin nhắn dán",
         participants,
         messages,
         dateRange: {

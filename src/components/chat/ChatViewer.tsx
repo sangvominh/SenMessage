@@ -75,7 +75,8 @@ export default function ChatViewer({
             <div className="flex items-center gap-2">
               <span className="text-base">✨</span>
               <span className="text-green-700 text-xs font-medium">
-                Đã chấm điểm sến {localScoring.scoredCount.toLocaleString("vi-VN")} tin nhắn (từ điển)
+                Đã chấm điểm sến {localScoring.scoredCount.toLocaleString("vi-VN")} tin nhắn (từ
+                điển)
               </span>
             </div>
             {apiKey ? (
@@ -86,9 +87,7 @@ export default function ChatViewer({
                 🤖 Phân tích sâu hơn bằng AI
               </button>
             ) : (
-              <span className="text-xs text-gray-400">
-                Thêm API key ở ⚙️ để dùng AI
-              </span>
+              <span className="text-xs text-gray-400">Thêm API key ở ⚙️ để dùng AI</span>
             )}
           </div>
         </div>

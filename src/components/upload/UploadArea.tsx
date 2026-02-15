@@ -222,12 +222,15 @@ export default function UploadArea({
         /* Paste text area */
         <div className="space-y-3">
           <p className="text-sm text-gray-500">
-            Copy tin nhắn từ messenger.com rồi dán vào đây. Định dạng: <code className="bg-gray-100 px-1 rounded">Tên: nội dung</code>
+            Copy tin nhắn từ messenger.com rồi dán vào đây. Định dạng:{" "}
+            <code className="bg-gray-100 px-1 rounded">Tên: nội dung</code>
           </p>
           <textarea
             value={pasteValue}
             onChange={(e) => setPasteValue(e.target.value)}
-            placeholder={"Ví dụ:\nAnh: Em ơi nhớ em quá\nEm: Em cũng nhớ anh\nAnh: Yêu em nhiều lắm ❤️"}
+            placeholder={
+              "Ví dụ:\nAnh: Em ơi nhớ em quá\nEm: Em cũng nhớ anh\nAnh: Yêu em nhiều lắm ❤️"
+            }
             className="w-full h-48 p-4 border border-gray-300 rounded-2xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400"
             disabled={isLoading}
           />
