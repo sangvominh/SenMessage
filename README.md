@@ -1,6 +1,6 @@
 # SenMessage 💌
 
-> *Tìm lại những khoảnh khắc ngọt ngào trong tin nhắn Facebook Messenger.*
+> _Tìm lại những khoảnh khắc ngọt ngào trong tin nhắn Facebook Messenger._
 
 ## ⚠️ Trạng thái dự án: Tạm đóng băng
 
@@ -61,18 +61,18 @@ npm run build
 2. Chọn **📋 Dán tin nhắn** (nhanh) hoặc **📁 File/Thư mục** (đầy đủ)
 3. Kết quả chấm điểm sến hiện **ngay lập tức**
 4. Kéo thanh slider để lọc theo mức sến (0–5)
-5. *(Tùy chọn)* Vào ⚙️ Cài đặt → nhập Gemini API key → nhấn "Phân tích sâu hơn bằng AI"
+5. _(Tùy chọn)_ Vào ⚙️ Cài đặt → nhập Gemini API key → nhấn "Phân tích sâu hơn bằng AI"
 
 ## Thang điểm sến
 
-| Mức | Ý nghĩa | Ví dụ |
-|-----|---------|-------|
-| 0 | Bình thường | "ok", "ừ", "mai đi ăn" |
-| 1 | Hơi sến nhẹ | "về chưa?", "nhớ ăn cơm nha" |
-| 2 | Sến vừa | "ngủ ngon nha", "nhớ em/anh" |
-| 3 | Sến rõ | "yêu em", "bé yêu ơi" |
-| 4 | Rất sến | "nhớ em quá đi", "muốn ôm em" |
-| 5 | Sến đỉnh cao | "yêu em nhiều lắm, không thể thiếu em" |
+| Mức | Ý nghĩa      | Ví dụ                                  |
+| --- | ------------ | -------------------------------------- |
+| 0   | Bình thường  | "ok", "ừ", "mai đi ăn"                 |
+| 1   | Hơi sến nhẹ  | "về chưa?", "nhớ ăn cơm nha"           |
+| 2   | Sến vừa      | "ngủ ngon nha", "nhớ em/anh"           |
+| 3   | Sến rõ       | "yêu em", "bé yêu ơi"                  |
+| 4   | Rất sến      | "nhớ em quá đi", "muốn ôm em"          |
+| 5   | Sến đỉnh cao | "yêu em nhiều lắm, không thể thiếu em" |
 
 ## Cấu trúc dự án
 
