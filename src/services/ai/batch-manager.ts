@@ -146,7 +146,7 @@ export class BatchManager {
               scoreUpdates.push({
                 id: msg.id,
                 sweetnessScore: r.score,
-                batchId: batch.id!,
+                batchId: batch.id,
               });
             }
           }
@@ -157,7 +157,7 @@ export class BatchManager {
               scoreUpdates.push({
                 id: msg.id,
                 sweetnessScore: null,
-                batchId: batch.id!,
+                batchId: batch.id,
               });
             }
           }

@@ -38,8 +38,8 @@ export default function AnalysisProgress({
       return;
     }
     setElapsedSec(0);
-    const interval = setInterval(() => setElapsedSec((s) => s + 1), 1000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => { setElapsedSec((s) => s + 1); }, 1000);
+    return () => { clearInterval(interval); };
   }, [isRunning]);
 
   // Don't show anything if idle and nothing done

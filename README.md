@@ -1,31 +1,22 @@
 # SenMessage 💌
 
-> _Tìm lại những khoảnh khắc ngọt ngào trong tin nhắn Facebook Messenger._
+> _Tìm lại những khoảnh khắc ngọt ngào trong tin nhắn Instagram._
 
-## ⚠️ Trạng thái dự án: Tạm đóng băng
+## ⚠️ Trạng thái dự án: Hỗ trợ Instagram
 
-Dự án hiện đã được **tạm dừng phát triển** vì một giới hạn kỹ thuật không thể giải quyết được:
+Ban đầu, dự án được thiết kế cho Facebook Messenger. Tuy nhiên, Facebook Messenger đã bật mã hóa đầu cuối (End-to-End Encryption / E2EE) mặc định, khiến file export không còn chứa nội dung tin nhắn.
 
-**Facebook Messenger đã mã hóa đầu cuối (End-to-End Encryption / E2EE) các cuộc trò chuyện cá nhân.**
-
-Điều này có nghĩa là:
-
-- Tính năng "Download Your Information" (DYI) của Facebook **không thể xuất nội dung** các cuộc trò chuyện đã được bật E2EE.
-- File export chỉ chứa metadata (tên, thời gian) mà **không có nội dung tin nhắn** — hoàn toàn không có dữ liệu text để phân tích.
-- Đây là hạn chế từ phía Facebook nhằm bảo vệ quyền riêng tư người dùng, và SenMessage không có cách nào vượt qua được.
-- Các cuộc trò chuyện mới trên Messenger mặc định đều bật E2EE, nên vấn đề này ảnh hưởng đến **phần lớn người dùng**.
-
-Nếu trong tương lai Facebook cung cấp API hoặc cách export có hỗ trợ giải mã E2EE cho chính chủ tài khoản, dự án có thể được tiếp tục phát triển.
+May mắn thay, **Instagram hiện tại vẫn cho phép export đầy đủ nội dung tin nhắn**, do đó SenMessage hiện đang tập trung hỗ trợ phân tích tin nhắn từ Instagram!
 
 ---
 
 ## Giới thiệu
 
-SenMessage là ứng dụng web giúp phân tích "độ sến" (mức độ tình cảm, ngọt ngào) trong tin nhắn Facebook Messenger. Ứng dụng chạy hoàn toàn trên trình duyệt — dữ liệu tin nhắn không bao giờ rời khỏi máy của bạn.
+SenMessage là ứng dụng web giúp phân tích "độ sến" (mức độ tình cảm, ngọt ngào) trong tin nhắn Instagram. Ứng dụng chạy hoàn toàn trên trình duyệt — dữ liệu tin nhắn không bao giờ rời khỏi máy của bạn.
 
 ### Tính năng chính
 
-- 📁 **Upload file export** từ Facebook (JSON/HTML) hoặc chọn thư mục
+- 📁 **Upload file export** từ Instagram (JSON/HTML) hoặc chọn thư mục
 - 📋 **Dán tin nhắn** trực tiếp — không cần export, chỉ cần copy-paste
 - ⚡ **Chấm điểm sến tức thì** bằng từ điển tiếng Việt (150+ pattern, không cần internet)
 - 🤖 **Phân tích sâu bằng AI** (Gemini, tùy chọn) — hiểu ngữ cảnh, tiếng lóng
@@ -48,7 +39,7 @@ SenMessage là ứng dụng web giúp phân tích "độ sến" (mức độ tì
 npm install
 
 # Chạy dev server
-npm run dev
+npm run dev &
 # → http://localhost:5173
 
 # Build production
