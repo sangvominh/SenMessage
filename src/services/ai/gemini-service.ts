@@ -75,7 +75,10 @@ Lưu ý:
     if (!Array.isArray(raw)) return [];
 
     // Validate + clamp scores
-    const validIds = new Set(messages.map((m) => m.id));
+    const validIds = new Set<number>();
+    for (let i = 0; i < messages.length; i++) {
+      validIds.add(messages[i].id);
+    }
     const results: ScoreResult[] = [];
 
     for (const item of raw) {
