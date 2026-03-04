@@ -6,9 +6,17 @@
  * Per research.md R1.
  */
 export function decodeFBString(str: string): string {
+  // If the string contains characters > 255, it's already properly decoded (not mojibake)
+  for (let i = 0; i < str.length; i++) {
+    if (str.charCodeAt(i) > 255) {
+      return str;
+    }
+  }
+
   try {
+    // eslint-disable-next-line @typescript-eslint/no-misused-spread
     const bytes = new Uint8Array([...str].map((c) => c.charCodeAt(0)));
-    return new TextDecoder("utf-8").decode(bytes);
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
   } catch {
     return str; // If not mojibake, return original
   }

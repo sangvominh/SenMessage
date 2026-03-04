@@ -27,7 +27,7 @@ export function useFileUpload(): UseFileUploadReturn {
     setError(null);
     setResult(null);
 
-    tryParse(files, (p) => setProgress(p))
+    tryParse(files, (p) => { setProgress(p); })
       .then((exportResult) => {
         setResult(exportResult);
         setState("success");

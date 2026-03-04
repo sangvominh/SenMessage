@@ -14,7 +14,7 @@ export default function ConversationPicker({ conversations, onSelect }: Conversa
         {conversations.map((conv) => (
           <button
             key={conv.id}
-            onClick={() => onSelect(conv)}
+            onClick={() => { onSelect(conv); }}
             className="w-full text-left bg-white rounded-xl p-4 border border-gray-100 hover:border-blue-300 hover:shadow-sm transition-all"
           >
             <h3 className="font-medium text-gray-800 truncate">{conv.title}</h3>

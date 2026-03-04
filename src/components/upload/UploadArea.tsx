@@ -7,7 +7,7 @@ async function readDirectoryEntries(entry: FileSystemDirectoryEntry): Promise<Fi
   const reader = entry.createReader();
 
   const readBatch = (): Promise<FileSystemEntry[]> =>
-    new Promise((resolve, reject) => reader.readEntries(resolve, reject));
+    new Promise((resolve, reject) => { reader.readEntries(resolve, reject); });
 
   // readEntries returns batches of up to 100 entries — must loop
   let batch: FileSystemEntry[];
@@ -16,7 +16,7 @@ async function readDirectoryEntries(entry: FileSystemDirectoryEntry): Promise<Fi
     for (const child of batch) {
       if (child.isFile) {
         const file = await new Promise<File>((resolve, reject) =>
-          (child as FileSystemFileEntry).file(resolve, reject),
+          { (child as FileSystemFileEntry).file(resolve, reject); },
         );
         files.push(file);
       } else if (child.isDirectory) {
@@ -92,7 +92,7 @@ export default function UploadArea({
             allFiles.push(...dirFiles.filter(isRelevantFile));
           } else if (entry.isFile) {
             const file = await new Promise<File>((resolve, reject) =>
-              (entry as FileSystemFileEntry).file(resolve, reject),
+              { (entry as FileSystemFileEntry).file(resolve, reject); },
             );
             if (isRelevantFile(file)) allFiles.push(file);
           }
@@ -147,7 +147,7 @@ export default function UploadArea({
       <div className="flex gap-1 mb-4 bg-gray-100 rounded-xl p-1">
         <button
           type="button"
-          onClick={() => setActiveTab("file")}
+          onClick={() => { setActiveTab("file"); }}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
             activeTab === "file"
               ? "bg-white text-blue-600 shadow-sm"
@@ -158,7 +158,7 @@ export default function UploadArea({
         </button>
         <button
           type="button"
-          onClick={() => setActiveTab("paste")}
+          onClick={() => { setActiveTab("paste"); }}
           className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
             activeTab === "paste"
               ? "bg-white text-blue-600 shadow-sm"
@@ -227,7 +227,7 @@ export default function UploadArea({
           </p>
           <textarea
             value={pasteValue}
-            onChange={(e) => setPasteValue(e.target.value)}
+            onChange={(e) => { setPasteValue(e.target.value); }}
             placeholder={
               "Ví dụ:\nAnh: Em ơi nhớ em quá\nEm: Em cũng nhớ anh\nAnh: Yêu em nhiều lắm ❤️"
             }

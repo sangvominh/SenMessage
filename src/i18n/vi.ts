@@ -12,13 +12,13 @@ export const vi = {
   onboarding: {
     welcome: "Chào mừng bạn đến với SenMessage!",
     description:
-      "Tìm lại những tin nhắn ngọt ngào nhất. Dán tin nhắn trực tiếp hoặc upload file export Facebook.",
-    howToExport: "Cách export tin nhắn từ Facebook:",
-    step1: "Truy cập facebook.com/dyi",
+      "Tìm lại những tin nhắn ngọt ngào nhất. Dán tin nhắn trực tiếp hoặc upload file export Instagram.",
+    howToExport: "Cách export tin nhắn từ Instagram:",
+    step1: "Truy cập Instagram → Cài đặt → Tải xuống thông tin của bạn",
     step2: 'Chọn "Yêu cầu tải xuống"',
-    step3: 'Chỉ chọn "Tin nhắn" — bỏ chọn tất cả mục khác',
+    step3: 'Chỉ chọn "Tin nhắn" (Messages) — bỏ chọn tất cả mục khác',
     step4: "Chọn định dạng JSON (khuyến nghị) hoặc HTML",
-    step5: "Tải về, giải nén, rồi chọn thư mục inbox hoặc thư mục cuộc hội thoại",
+    step5: "Tải về, giải nén, rồi chọn thư mục messages/inbox hoặc thư mục cuộc hội thoại",
     startButton: "Bắt đầu",
   },
 
@@ -30,12 +30,12 @@ export const vi = {
     selectFile: "Chọn file JSON/HTML",
     selectFolder: "Chọn thư mục export",
     folderHint:
-      "Chọn thư mục chứa export Facebook (ví dụ: thư mục inbox hoặc thư mục cuộc hội thoại)",
-    acceptedFormats: "Hỗ trợ file .json / .html hoặc thư mục export Facebook Messenger",
+      "Chọn thư mục chứa export Instagram (ví dụ: thư mục messages/inbox hoặc thư mục cuộc hội thoại)",
+    acceptedFormats: "Hỗ trợ file .json / .html hoặc thư mục export Instagram",
     parsing: "Đang đọc file...",
     scanning: "Đang quét thư mục...",
-    foundFiles: (count: number) => `Tìm thấy ${count} file tin nhắn`,
-    parseProgress: (percent: number) => `Đang xử lý... ${Math.round(percent * 100)}%`,
+    foundFiles: (count: number) => `Tìm thấy ${String(count)} file tin nhắn`,
+    parseProgress: (percent: number) => `Đang xử lý... ${String(Math.round(percent * 100))}%`,
   },
 
   // Conversation picker
@@ -72,7 +72,7 @@ export const vi = {
     noResults: "Không tìm thấy tin nhắn sến ở mức này 🥲",
     noSearchResults: "Không tìm thấy kết quả tìm kiếm",
     tryLower: "Thử giảm mức sến nhé!",
-    matchCount: (count: number) => `${count} kết quả`,
+    matchCount: (count: number) => `${String(count)} kết quả`,
   },
 
   // Analysis progress
@@ -120,16 +120,16 @@ export const vi = {
   errors: {
     generic: "Đã xảy ra lỗi. Vui lòng thử lại.",
     parseInvalidJson:
-      "File không phải định dạng JSON hợp lệ. Vui lòng kiểm tra lại file export từ Facebook.",
+      "File không phải định dạng JSON hợp lệ. Vui lòng kiểm tra lại file export từ Instagram.",
     parseMissingMessages:
-      "File JSON không chứa dữ liệu tin nhắn. Đảm bảo bạn đã export phần 'Tin nhắn' từ Facebook.",
+      "File JSON không chứa dữ liệu tin nhắn. Đảm bảo bạn đã export phần 'Tin nhắn' từ Instagram.",
     parseEmptyConversation: "Cuộc hội thoại này không có tin nhắn nào.",
-    parseInvalidHtml: "File không phải định dạng HTML export từ Facebook.",
+    parseInvalidHtml: "File không phải định dạng HTML export từ Instagram.",
     parseNoHtmlMessages:
-      "Không tìm thấy tin nhắn trong file HTML. Facebook có thể đã thay đổi format export.",
+      "Không tìm thấy tin nhắn trong file HTML. Instagram có thể đã thay đổi format export.",
     parseHtmlClassMismatch: "Format HTML không được nhận dạng. Thử export lại ở định dạng JSON.",
     parseUnknownFormat:
-      "Không tìm thấy file tin nhắn. Hãy chọn thư mục chứa export Facebook hoặc chọn trực tiếp file message_*.json.",
+      "Không tìm thấy file tin nhắn. Hãy chọn thư mục chứa export Instagram hoặc chọn trực tiếp file message_*.json.",
     parseNoMessageFiles:
       "Không tìm thấy file message_*.json trong thư mục. Hãy chọn đúng thư mục inbox hoặc thư mục cuộc hội thoại.",
     apiKeyInvalid: "API key không hợp lệ. Vui lòng kiểm tra lại.",
@@ -142,7 +142,7 @@ export const vi = {
   // Empty states
   empty: {
     noUpload: "Chưa có file nào được tải lên",
-    noUploadHint: "Hãy upload file export Facebook Messenger để bắt đầu",
+    noUploadHint: "Hãy upload file export Instagram để bắt đầu",
     noMessages: "Không có tin nhắn nào",
     analysisInProgress:
       "Đang phân tích tin nhắn... Bạn có thể duyệt tin nhắn ở mức 0 trong khi chờ đợi!",

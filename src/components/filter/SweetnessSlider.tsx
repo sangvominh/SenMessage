@@ -24,7 +24,7 @@ export default function SweetnessSlider({ level, onChange }: SweetnessSliderProp
           max={5}
           step={1}
           value={level}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(e) => { onChange(Number(e.target.value)); }}
           className="flex-1 h-2 rounded-full appearance-none cursor-pointer accent-pink-500"
           style={{
             background: `linear-gradient(to right, #3b82f6 0%, #ec4899 ${level * 20}%, #e5e7eb ${level * 20}%, #e5e7eb 100%)`,
