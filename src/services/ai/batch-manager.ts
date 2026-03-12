@@ -7,6 +7,8 @@ const BATCH_SIZE = 200;
 const CONTEXT_WINDOW = 5;
 const MAX_RETRIES = 3;
 const BACKOFF_BASE_MS = 1000;
+const RATE_LIMIT_WAIT_MS = 60_000;
+const DEFAULT_RATE_LIMIT_DELAY_MS = 2_500;
 
 export interface BatchProgress {
   batchesCompleted: number;
@@ -31,7 +33,7 @@ export class BatchManager {
 
   constructor(apiKey: string) {
     this.gemini = new GeminiService(apiKey);
-    this.rateLimiter = new RateLimiter(2_500); // 30 RPM free tier for gemini-2.0-flash-lite
+    this.rateLimiter = new RateLimiter(DEFAULT_RATE_LIMIT_DELAY_MS); // 30 RPM free tier for gemini-2.0-flash-lite
   }
 
   setParticipants(participants: Participant[]): void {
@@ -193,10 +195,10 @@ export class BatchManager {
             return;
           }
 
-          // Rate limit (429) → wait 60s then retry (doesn't count as failure)
+          // Rate limit (429) → wait then retry (doesn't count as failure)
           if (errorMsg.includes("429") || errorMsg.toLowerCase().includes("rate")) {
-            onError?.("Đã vượt giới hạn RPM. Đang chờ 60 giây...");
-            await new Promise((resolve) => setTimeout(resolve, 60_000));
+            onError?.(`Đã vượt giới hạn RPM. Đang chờ ${RATE_LIMIT_WAIT_MS / 1000} giây...`);
+            await new Promise((resolve) => setTimeout(resolve, RATE_LIMIT_WAIT_MS));
             onError?.(null); // Clear the temporary error after waiting
             retryCount--; // Don't count rate limit as a failure retry
             continue;
