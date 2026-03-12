@@ -71,7 +71,12 @@ Lưu ý:
     const text = response.text;
     if (!text) return [];
 
-    const raw: unknown = JSON.parse(text);
+    let raw: unknown;
+    try {
+      raw = JSON.parse(text);
+    } catch {
+      return [];
+    }
     if (!Array.isArray(raw)) return [];
 
     // Validate + clamp scores
