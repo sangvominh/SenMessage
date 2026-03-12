@@ -163,7 +163,7 @@ export class HTMLParser implements ChatExportParser {
 // Timestamp parsing helpers
 // ============================================================
 
-function parseTimestamp(str: string): number {
+export function parseTimestamp(str: string): number {
   if (!str) return 0;
 
   // Try native Date.parse first
