@@ -1,0 +1,3 @@
+## 2024-05-24 - Intl.DateTimeFormat caching vs toLocaleDateString/toLocaleTimeString
+**Learning:** `new Date().toLocaleDateString()` and `new Date().toLocaleTimeString()` are extremely slow in JS when called in a loop (e.g. for every message in a chat UI). On Node, formatting 10k dates took ~2 seconds with `toLocaleDateString` but only ~77ms when using a cached `new Intl.DateTimeFormat().format()` instance.
+**Action:** When rendering lists of items that need date/time formatting, always instantiate an `Intl.DateTimeFormat` object outside the loop or component render cycle and reuse its `.format()` method.
