@@ -92,7 +92,9 @@ export class BatchManager {
       if (this.cancelled) break;
       if (!batch.id) continue;
 
-      await updateBatch(batch.id, { status: "in-progress" });
+      void updateBatch(batch.id, { status: "in-progress" }).catch((e) =>
+        console.error("Failed to update batch status to in-progress:", e),
+      );
 
       let success = false;
       let retryCount = 0;
@@ -166,10 +168,10 @@ export class BatchManager {
             await updateScores(scoreUpdates);
           }
 
-          await updateBatch(batch.id, {
+          void updateBatch(batch.id, {
             status: "completed",
             completedAt: Date.now(),
-          });
+          }).catch((e) => console.error("Failed to update batch status to completed:", e));
 
           success = true;
           batchesCompleted++;
