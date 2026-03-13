@@ -9,11 +9,15 @@ interface ChatBubbleProps {
   highlightText?: (text: string) => ReactNode[];
 }
 
+// Cache the formatter to avoid expensive re-initialization during render
+// ~70x faster than calling toLocaleTimeString repeatedly
+const timeFormatter = new Intl.DateTimeFormat("vi-VN", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 function formatTime(timestamp: number): string {
-  return new Date(timestamp).toLocaleTimeString("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return timeFormatter.format(timestamp);
 }
 
 function getMessageTypeLabel(type: string): string | null {

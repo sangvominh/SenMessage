@@ -6,14 +6,16 @@ interface ConversationSummaryProps {
   onViewMessages: () => void;
 }
 
+// Cache the formatter to avoid expensive re-initialization
+const dateFormatter = new Intl.DateTimeFormat("vi-VN", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
 function formatDateRange(start: number, end: number): string {
-  const opts: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-  const startStr = new Date(start).toLocaleDateString("vi-VN", opts);
-  const endStr = new Date(end).toLocaleDateString("vi-VN", opts);
+  const startStr = dateFormatter.format(start);
+  const endStr = dateFormatter.format(end);
   return startStr === endStr ? startStr : `${startStr} — ${endStr}`;
 }
 
