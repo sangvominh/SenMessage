@@ -9,11 +9,14 @@ interface ChatBubbleProps {
   highlightText?: (text: string) => ReactNode[];
 }
 
+// ⚡ Bolt: Cache Intl.DateTimeFormat to avoid expensive instantiation on every render
+const timeFormatter = new Intl.DateTimeFormat("vi-VN", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 function formatTime(timestamp: number): string {
-  return new Date(timestamp).toLocaleTimeString("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return timeFormatter.format(timestamp);
 }
 
 function getMessageTypeLabel(type: string): string | null {

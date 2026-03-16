@@ -7,12 +7,15 @@ interface GroupedData {
   flatMessages: Message[];
 }
 
+// ⚡ Bolt: Cache Intl.DateTimeFormat to avoid expensive instantiation during message processing loop
+const dateFormatter = new Intl.DateTimeFormat("vi-VN", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
+
 function formatDateLabel(timestamp: number): string {
-  return new Date(timestamp).toLocaleDateString("vi-VN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  return dateFormatter.format(timestamp);
 }
 
 /**
