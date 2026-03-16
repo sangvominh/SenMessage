@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import React, { type ReactNode } from "react";
 import type { Message, Participant } from "../../models/types";
 import { vi } from "../../i18n/vi";
 import SweetnessIndicator from "./SweetnessIndicator";
@@ -24,7 +24,11 @@ function getMessageTypeLabel(type: string): string | null {
   return labels[type] ?? null;
 }
 
-export default function ChatBubble({ message, participants, highlightText }: ChatBubbleProps) {
+const ChatBubble = React.memo(function ChatBubble({
+  message,
+  participants,
+  highlightText,
+}: ChatBubbleProps) {
   const currentUser = participants.find((p) => p.isCurrentUser);
   const isOwn = currentUser ? message.sender === currentUser.name : false;
 
@@ -97,4 +101,6 @@ export default function ChatBubble({ message, participants, highlightText }: Cha
       </div>
     </div>
   );
-}
+});
+
+export default ChatBubble;

@@ -53,7 +53,9 @@ export default function ChatViewer({
       }
     };
     window.addEventListener("keydown", handler);
-    return () => { window.removeEventListener("keydown", handler); };
+    return () => {
+      window.removeEventListener("keydown", handler);
+    };
   }, []);
 
   const highlightText = useCallback(
