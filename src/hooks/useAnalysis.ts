@@ -59,7 +59,9 @@ export function useAnalysis(): UseAnalysisReturn {
         .processBatches(
           batches,
           messages,
-          (p) => { setProgress(p); },
+          (p) => {
+            setProgress(p);
+          },
           (err) => {
             if (err === null) {
               // Temporary error cleared (e.g. rate limit wait finished)
