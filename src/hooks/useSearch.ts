@@ -2,7 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import type { Message } from "../models/types";
 import type { ReactNode } from "react";
 
-function escapeRegex(str: string): string {
+export function escapeRegex(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
@@ -24,14 +24,19 @@ export function useSearch(filteredMessages: Message[]): UseSearchReturn {
 
   // Find indices of matching messages within filteredMessages
   const matchIndices = useMemo(() => {
-    if (!query.trim()) return [];
-    const lower = query.toLowerCase();
+    const trimmed = query.trim();
+    if (!trimmed) return [];
+
+    // Optimized to use pre-compiled RegExp instead of toLowerCase().includes()
+    // inside a standard for loop for performance on large arrays.
+    const regex = new RegExp(escapeRegex(trimmed), "i");
     const indices: number[] = [];
-    filteredMessages.forEach((m, i) => {
-      if (m.content?.toLowerCase().includes(lower)) {
+    for (let i = 0; i < filteredMessages.length; i++) {
+      const content = filteredMessages[i].content;
+      if (content && regex.test(content)) {
         indices.push(i);
       }
-    });
+    }
     return indices;
   }, [filteredMessages, query]);
 

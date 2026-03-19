@@ -9,19 +9,31 @@ import type { Message } from "../models/types";
  */
 export function filterBySweetness(messages: Message[], level: number): Message[] {
   if (level === 0) return messages;
-  return messages.filter(
-    (m) => m.sweetnessScore !== null && m.sweetnessScore !== undefined && m.sweetnessScore >= level,
-  );
+  return messages.filter((m) => m.sweetnessScore !== null && m.sweetnessScore >= level);
+}
+
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 /**
  * Filter messages by keyword (case-insensitive String.includes).
+ * Optimized to use pre-compiled RegExp instead of toLowerCase().includes() to avoid string allocations.
+ * Using standard for loop for better performance on large arrays.
  */
 export function filterByKeyword(messages: Message[], query: string): Message[] {
   const trimmed = query.trim();
   if (!trimmed) return messages;
-  const lower = trimmed.toLowerCase();
-  return messages.filter((m) => m.content?.toLowerCase().includes(lower));
+
+  const regex = new RegExp(escapeRegex(trimmed), "i");
+  const result: Message[] = [];
+  for (let i = 0; i < messages.length; i++) {
+    const content = messages[i].content;
+    if (content && regex.test(content)) {
+      result.push(messages[i]);
+    }
+  }
+  return result;
 }
 
 /**
