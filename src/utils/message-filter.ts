@@ -10,18 +10,33 @@ import type { Message } from "../models/types";
 export function filterBySweetness(messages: Message[], level: number): Message[] {
   if (level === 0) return messages;
   return messages.filter(
-    (m) => m.sweetnessScore !== null && m.sweetnessScore !== undefined && m.sweetnessScore >= level,
+    (m) => m.sweetnessScore !== null && m.sweetnessScore >= level,
   );
 }
 
 /**
- * Filter messages by keyword (case-insensitive String.includes).
+ * Filter messages by keyword (case-insensitive RegExp).
+ * ⚡ Bolt: Uses pre-compiled RegExp and a standard for-loop instead of
+ * String.toLowerCase().includes() inside .filter() to avoid massive string
+ * allocation and function call overhead on 100k+ message arrays.
  */
 export function filterByKeyword(messages: Message[], query: string): Message[] {
   const trimmed = query.trim();
   if (!trimmed) return messages;
-  const lower = trimmed.toLowerCase();
-  return messages.filter((m) => m.content?.toLowerCase().includes(lower));
+
+  // Escape regex special characters
+  const escaped = trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(escaped, "i");
+
+  const result: Message[] = [];
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    if (m?.content && regex.test(m.content)) {
+      result.push(m);
+    }
+  }
+
+  return result;
 }
 
 /**
