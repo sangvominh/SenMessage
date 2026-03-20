@@ -25,13 +25,21 @@ export function useSearch(filteredMessages: Message[]): UseSearchReturn {
   // Find indices of matching messages within filteredMessages
   const matchIndices = useMemo(() => {
     if (!query.trim()) return [];
-    const lower = query.toLowerCase();
+
+    // ⚡ Bolt: Use pre-compiled RegExp and standard for-loop instead of
+    // .toLowerCase().includes() inside .forEach() on 100k+ elements array
+    // to significantly reduce string allocation & function call overhead
+    const escaped = escapeRegex(query.trim());
+    const regex = new RegExp(escaped, "i");
     const indices: number[] = [];
-    filteredMessages.forEach((m, i) => {
-      if (m.content?.toLowerCase().includes(lower)) {
+
+    for (let i = 0; i < filteredMessages.length; i++) {
+      const m = filteredMessages[i];
+      if (m?.content && regex.test(m.content)) {
         indices.push(i);
       }
-    });
+    }
+
     return indices;
   }, [filteredMessages, query]);
 
