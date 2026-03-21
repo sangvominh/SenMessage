@@ -9,19 +9,36 @@ import type { Message } from "../models/types";
  */
 export function filterBySweetness(messages: Message[], level: number): Message[] {
   if (level === 0) return messages;
-  return messages.filter(
-    (m) => m.sweetnessScore !== null && m.sweetnessScore !== undefined && m.sweetnessScore >= level,
-  );
+  const result: Message[] = [];
+  // Standard for loop to avoid function call overhead for large arrays
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    // TypeScript complains about m.sweetnessScore !== undefined having no overlap,
+    // so we just check for nullness directly based on the type signature,
+    // or we can use != null to catch both null and undefined implicitly.
+    if (m.sweetnessScore != null && m.sweetnessScore >= level) {
+      result.push(m);
+    }
+  }
+  return result;
 }
 
 /**
- * Filter messages by keyword (case-insensitive String.includes).
+ * Filter messages by keyword (case-insensitive RegExp.test).
  */
 export function filterByKeyword(messages: Message[], query: string): Message[] {
   const trimmed = query.trim();
   if (!trimmed) return messages;
-  const lower = trimmed.toLowerCase();
-  return messages.filter((m) => m.content?.toLowerCase().includes(lower));
+  const regex = new RegExp(trimmed.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+  const result: Message[] = [];
+  // Standard for loop to avoid function call overhead for large arrays
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    if (m.content && regex.test(m.content)) {
+      result.push(m);
+    }
+  }
+  return result;
 }
 
 /**
