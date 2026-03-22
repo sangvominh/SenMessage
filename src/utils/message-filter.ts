@@ -14,14 +14,29 @@ export function filterBySweetness(messages: Message[], level: number): Message[]
   );
 }
 
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 /**
  * Filter messages by keyword (case-insensitive String.includes).
+ * Optimized to use RegExp and standard for loop for large array performance.
  */
 export function filterByKeyword(messages: Message[], query: string): Message[] {
   const trimmed = query.trim();
   if (!trimmed) return messages;
-  const lower = trimmed.toLowerCase();
-  return messages.filter((m) => m.content?.toLowerCase().includes(lower));
+
+  const regex = new RegExp(escapeRegex(trimmed), "i");
+  const result: Message[] = [];
+
+  for (let i = 0; i < messages.length; i++) {
+    const m = messages[i];
+    if (m?.content && regex.test(m.content)) {
+      result.push(m);
+    }
+  }
+
+  return result;
 }
 
 /**
