@@ -82,7 +82,8 @@ Lưu ý:
     // Validate + clamp scores
     const validIds = new Set<number>();
     for (let i = 0; i < messages.length; i++) {
-      validIds.add(messages[i].id);
+      const msg = messages[i];
+      if (msg) validIds.add(msg.id);
     }
     const results: ScoreResult[] = [];
 
