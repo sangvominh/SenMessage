@@ -81,7 +81,15 @@ export function parsePastedText(text: string): ConversationExport {
   const participants = Array.from(participantNames).map((name) => ({ name }));
   if (participants.length === 0) participants.push({ name: "Unknown" });
 
-  const timestamps = messages.map((m) => m.timestamp);
+  // ⚡ Bolt: Using iterative approach to compute min/max timestamps
+  // Prevents "Maximum call stack size exceeded" for large arrays
+  let start = Infinity;
+  let end = -Infinity;
+  for (let i = 0; i < messages.length; i++) {
+    const t = messages[i].timestamp;
+    if (t < start) start = t;
+    if (t > end) end = t;
+  }
 
   return {
     sourceFormat: "json", // Treat as JSON format internally
@@ -93,8 +101,8 @@ export function parsePastedText(text: string): ConversationExport {
         participants,
         messages,
         dateRange: {
-          start: Math.min(...timestamps),
-          end: Math.max(...timestamps),
+          start: start === Infinity ? 0 : start,
+          end: end === -Infinity ? 0 : end,
         },
       },
     ],

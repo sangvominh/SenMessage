@@ -127,10 +127,19 @@ export class HTMLParser implements ChatExportParser {
       });
 
       // Compute date range
-      const timestamps = rawMessages.map((m) => m.timestamp).filter((t) => t > 0);
+      // ⚡ Bolt: Iterative loop to prevent "Maximum call stack size exceeded" on large arrays, and better performance
+      let start = Infinity;
+      let end = -Infinity;
+      for (let i = 0; i < rawMessages.length; i++) {
+        const t = rawMessages[i].timestamp;
+        if (t > 0) {
+          if (t < start) start = t;
+          if (t > end) end = t;
+        }
+      }
       const dateRange = {
-        start: timestamps.length > 0 ? Math.min(...timestamps) : 0,
-        end: timestamps.length > 0 ? Math.max(...timestamps) : 0,
+        start: start === Infinity ? 0 : start,
+        end: end === -Infinity ? 0 : end,
       };
 
       const participants = [...participantNames].map((name) => ({ name }));

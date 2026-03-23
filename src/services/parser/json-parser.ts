@@ -167,10 +167,20 @@ export class JSONParser implements ChatExportParser {
       }));
 
       // Compute date range
-      const timestamps = messages.map((m) => m.timestamp).filter((t) => t > 0);
+      // ⚡ Bolt: Using Math.min(...timestamps) throws "Maximum call stack size exceeded" for large arrays.
+      // A traditional loop is faster and avoids memory bounds issues when processing massive chat histories.
+      let start = Infinity;
+      let end = -Infinity;
+      for (let i = 0; i < messages.length; i++) {
+        const t = messages[i].timestamp;
+        if (t > 0) {
+          if (t < start) start = t;
+          if (t > end) end = t;
+        }
+      }
       const dateRange = {
-        start: timestamps.length > 0 ? Math.min(...timestamps) : 0,
-        end: timestamps.length > 0 ? Math.max(...timestamps) : 0,
+        start: start === Infinity ? 0 : start,
+        end: end === -Infinity ? 0 : end,
       };
 
       conversations.push({
