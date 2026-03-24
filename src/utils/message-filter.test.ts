@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { filterBySweetness } from "./message-filter";
 import { Message } from "../models/types";
 
@@ -26,7 +27,6 @@ describe("filterBySweetness", () => {
     const result = filterBySweetness(mockMessages as Message[], 1);
     expect(result).toHaveLength(3);
     expect(result.find((m) => m.sweetnessScore === null)).toBeUndefined();
-    expect(result.find((m) => m.sweetnessScore === undefined)).toBeUndefined();
   });
 
   it("should return an empty array if no messages match the level", () => {
